@@ -11,9 +11,12 @@ def authenticate_by_token(token):
     if token is None:
         return False
     s = Serializer(SECRET_KEY)
-    username = s.loads(token.encode())
-    if username == 'admin':
-        return True
+    try:
+        username = s.loads(token.encode())
+        if username == 'admin':
+            return True
+    except:
+        return False
 
     return False
 
