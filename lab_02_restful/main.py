@@ -1,5 +1,9 @@
 from flask import Flask
-from flask_restful import Resource, Api, reqparse, fields, marshal_with
+from flask import jsonify
+from flask_restful import reqparse
+
+app = Flask(__name__)
+database = []
 
 
 class Student:
@@ -13,14 +17,6 @@ class Statistics:
     max = None
     average = 0
     num_of_students = 0
-
-
-fields = {
-    "min": fields.Float,
-    "max": fields.Float,
-    "average": fields.Float,
-    "num_of_students": fields.Integer
-}
 
 
 def statistics():
@@ -49,29 +45,63 @@ def statistics():
     return stats
 
 
-class Converter(Resource):
-    def post(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument('name', type=str)
-        parser.add_argument('grade', type=int)
-        args = parser.parse_args()
+@app.route("/students", methods=['PUT'])
+def add_student():
+    parser = reqparse.RequestParser()
+    parser.add_argument('name', type=str)
+    parser.add_argument('grade', type=int)
+    args = parser.parse_args()
 
-        name = args.get("name")
-        grade = args.get("grade")
+    name = args.get("name")
+    grade = args.get("grade")
 
-        database.append(Student(name, grade))
-        return {'message': 'Added Successfully'}, 200
-
-    @marshal_with(fields=fields)
-    def get(self):
-        return statistics()
+    database.append(Student(name, grade))
+    return 'Student is added', 200
 
 
-app = Flask(__name__)
-api = Api(app)
-database = []
-api.add_resource(Converter, '/statistics', endpoint="statistics", methods=['GET'])
-api.add_resource(Converter, '/student', endpoint="student", methods=['POST'])
+@app.route("/students", methods=['GET'])
+def get_students():
+    return jsonify([st.__dict__ for st in database])
 
-if __name__ == '__main__':
-    app.run(debug=True)
+
+@app.route("/students/<name>", methods=['GET'])
+def get_student(name):
+    for st in database:
+        if st.name == name:
+            return jsonify(st.__dict__)
+
+    return 'Student was not found', 404
+
+
+@app.route("/students/<name>", methods=['DELETE'])
+def delete_student(name):
+    for st in database:
+        if st.name == name:
+            database.remove(st)
+            return 'Student is removed', 200, {'Content-Type': 'text/plain'}
+    return 'Student has been already removed', 200
+
+
+@app.route("/students/<name>", methods=['PUT'])
+def update_student(name):
+    parser = reqparse.RequestParser()
+    parser.add_argument('grade', type=int)
+    args = parser.parse_args()
+    grade = args.get("grade")
+
+    for st in database:
+        if st.name == name:
+            database.remove(st)
+            database.append(Student(name, grade))
+            return "Student's information was updated"
+
+    return 'There is no such a student', 404
+
+
+@app.route("/statistics", methods=['GET'])
+def get_statistics():
+    return jsonify(statistics().__dict__)
+
+
+if __name__ == "__main__":
+    app.run()
