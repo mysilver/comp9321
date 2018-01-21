@@ -61,7 +61,9 @@ def add_student():
 
 @app.route("/students", methods=['GET'])
 def get_students():
-    return jsonify([st.__dict__ for st in database])
+    response = jsonify([st.__dict__ for st in database])
+    # response.headers._list.append(('Access-Control-Allow-Origin', '*'))
+    return response
 
 
 @app.route("/students/<name>", methods=['GET'])

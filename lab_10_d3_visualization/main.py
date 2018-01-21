@@ -1,11 +1,12 @@
 from collections import deque
 from flask import Flask
-from flask_restful import Resource, Api
 import datetime
 import threading
 import time
 import psutil as psutil
+from jsonpickle import json
 
+app = Flask(__name__)
 mem_history = deque(maxlen=60)
 
 
@@ -24,17 +25,12 @@ t.daemon = True
 t.start()
 
 
-class ServerMem(Resource):
-    def get(self):
-        ret = list(mem_history)
-        # to allow external access to the endpoint you need to add 'Access-Control-Allow-Origin': '*' to the headers
-        return ret, 200, {'Access-Control-Allow-Origin': '*'}
+@app.route("/mem", methods=['GET'])
+def get_memory_history():
+    history = list(mem_history)
+    # to allow external access to the endpoint you need to add 'Access-Control-Allow-Origin': '*' to the headers
+    return json.dumps(history), 200, {'Access-Control-Allow-Origin': '*'}
 
-
-app = Flask(__name__)
-api = Api(app)
-database = []
-api.add_resource(ServerMem, '/mem', endpoint="statistics", methods=['GET'])
 
 if __name__ == '__main__':
     app.run(debug=True)

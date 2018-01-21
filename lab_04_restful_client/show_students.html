@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Show Students</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
+</head>
+<body style="padding: 50px">
+
+    <button class="btn btn-info" onclick="fetch_students()">Fetch Students</button>
+    <table class="table table-responsive" id="students"></table>
+    <script>
+            function fetch_students() {
+                $.get( "http://localhost:5000/students", function( data ) {
+                    $('#students').empty()
+                    $('#students').append('<thead><tr><th>Name</th><th>Grade</th></tr></thead><tbody>')
+                    data.forEach(function(x) {
+                        $('#students').append("<tr><td>"+x.name+"</td><td>"+x.grade+"</td></tr>");
+                    });
+
+                });
+            }
+    </script>
+</body>
+</html>
+

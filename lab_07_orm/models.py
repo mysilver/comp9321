@@ -7,7 +7,7 @@ from lab_07_orm.database import Base
 class Teacher(Base):
     __tablename__ = 'teachers'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String)
     course = Column(String)
     students = Column(PickleType)
