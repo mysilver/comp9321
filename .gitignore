@@ -2,8 +2,8 @@
 .gitignore
 .idea/
 lab_02_Building_Web_Applications_with_Flask/__pycache__/
-lab_06_best_practice/__pycache__/
-lab_06_best_practice/app/__pycache__/
-lab_06_best_practice/utils/__pycache__/
+lab_02_Blueprints/__pycache__/
+lab_02_Blueprints/app/__pycache__/
+lab_02_Blueprints/utils/__pycache__/
 lab_07_orm/__pycache__/
 lab_08_authentication/__pycache__/

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method="post" action="{{url_for('app.add')}}">
+    <table>
+        <tr>
+            <td>id</td>
+            <td><input type="number" name="id"></td>
+        </tr>
+        <tr>
+            <td>First name</td>
+            <td><input type="text" name="firstname"></td>
+        </tr>
+        <tr>
+            <td>Last name</td>
+            <td><input type="text" name="lastname"></td>
+        </tr>
+        <tr>
+            <td>Gender</td>
+            <td>
+                <select name="gender">
+                    <option value="MALE">Male</option>
+                    <option value="FEMALE">Female</option>
+                </select>
+            </td>
+        </tr>
+        <input type="submit" value="Add" />
+    </table>
+</form>
+</body>
+</html>
