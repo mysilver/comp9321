@@ -1,7 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
 .gitignore
 .idea/
-lab_05_web_application/__pycache__/
+lab_02_Building_Web_Applications_with_Flask/__pycache__/
 lab_06_best_practice/__pycache__/
 lab_06_best_practice/app/__pycache__/
 lab_06_best_practice/utils/__pycache__/

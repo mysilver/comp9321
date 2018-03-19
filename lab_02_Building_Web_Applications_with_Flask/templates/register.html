@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+</head>
+<body>
+<form method="post" action="{{url_for('register')}}">
+    <table>
+        <tr>
+            <td>Name</td>
+            <td><input type="text" name="name"/></td>
+        </tr>
+        <tr>
+            <td>Course</td>
+            <td><input type="text" name="course"/></td>
+        </tr>
+    </table>
+    <input type="submit" value="submit"/>
+</form>
+</body>
+</html>

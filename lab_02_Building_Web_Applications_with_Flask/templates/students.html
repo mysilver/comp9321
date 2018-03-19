@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Students List</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+            integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+            crossorigin="anonymous"></script>
+
+
+
+</head>
+<body>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Student List</div>
+    <div class="table-responsive">
+        <table class="table table table-hover">
+            <thead>
+            <tr>
+                <th></th>
+                <th></th>
+                <th>ID</th>
+                <th>Gender</th>
+                <th>First Name</th>
+                <th class="col-md-10">Last Name</th>
+            </tr>
+            </thead>
+            {% for s in students: %}
+            <tr>
+                <td><a href="{{url_for('edit', id= s.id)}}"><i class="fa fa-pencil-square-o"></i></a></td>
+                <td><a href="{{url_for('delete', id =s.id)}}"><i class="fa fa-times"></i></a></td>
+                <td>{{s.id}}</td>
+                <td><i class="{{'fa fa-mars' if s.gender == 'MALE' else 'fa fa-venus'}}"></i>
+                <td>{{s.first_name}}</td>
+                <td>{{s.last_name}}</td>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+<a class="btn btn-success" href="{{url_for('add')}}"><i class="fa fa-venus-mars" aria-hidden="true"></i> New</a>
+<a class="btn btn-primary " href="{{url_for('save')}}"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</a>
+
+</body>
+</html>
