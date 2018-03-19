@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    function get_students_list()
+    {
+        const myurl = 'http://127.0.0.1:5000/students'
+        parent_tag =  document.getElementById("liststudent");
+        fetch(myurl).then((response) => response.json())
+            .then(function(data){
+                let ul =document.createElement('ul');
+                for(var item of data){
+                    let studentName = document.createElement('li');
+                    let studentGrade = document.createElement('li');
+                    studentName.innerHTML = `${item.name}, ${item.grade}`;
+                    ul.appendChild(studentName);
+                }
+                parent_tag.appendChild(ul);
+        })
+    }
+
+    function post_student_mark()
+    {
+        const url = 'http://127.0.0.1:5000/students';
+
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify({
+                name: document.getElementById('name').value,
+                grade: parseInt(document.getElementById('grade').value)
+            }),
+            headers: {'Content-Type' : 'application/json'}
+        }).then(function(response){
+            console.log((response));
+        });
+    }
+
+
+    function update_student_mark()
+    {
+        var nameUpdate = document.getElementById('nameUpdate').value;
+        //console.log(nameUpdate);
+        const url = `http://127.0.0.1:5000/students/${nameUpdate}`;
+        //document.getElementById('updating').action = 'http://127.0.0.1:5000/students/' + nameUpdate;
+        //console.log(nameUpdate);
+
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify({
+                grade: parseInt(document.getElementById('gradeUpdate').value)
+            }),
+            headers: {'Content-Type' : 'application/json'}
+        }).then(function(response){
+            console.log((response));
+        });
+        nameUpdate = escape(nameUpdate);
+        location.href = 'http://127.0.0.1:5000/students/' + nameUpdate;
+        return false;
+    }
+
+    function delete_student_mark()
+    {
+        var nameDelete = document.getElementById('nameDelete').value;
+        //console.log(nameUpdate);
+        const url = `http://127.0.0.1:5000/students/${nameDelete}`;
+        //document.getElementById('updating').action = 'http://127.0.0.1:5000/students/' + nameUpdate;
+        //console.log(nameUpdate);
+
+        fetch(url, {
+            method: 'DELETE'
+        }).then(function(response){
+            console.log((response));
+        });
+
+        nameDelete = escape(nameDelete);
+        location.href = 'http://127.0.0.1:5000/students/' + nameDelete;
+        return false;
+    }
+
+
+
+</script>
+<div id="main">
+    <h1>Add a New Student:</h1>
+    <form method="POST" action="http://127.0.0.1:5000/students" role="form">
+        <label>Student Name:</label> <input type="text"  name='name' id="name"/>
+        <label>Student Grade:</label> <input type="text" name='grade' id="grade" />
+        <button name="btninsert" id="btninsert" onsubmit="post_student_mark()">Store Student mark</button>
+        </br>
+    </form>
+    <br/>
+    <h1> Update Student Info</h1>
+    <form method="POST" role="form" name="updating" id="updating" action ="" onsubmit="return update_student_mark();" >
+        <label>Student Name:</label> <input type="text"  name='nameUpdate' id="nameUpdate"/>
+        <label>Student Grade:</label> <input type="text" name='gradeUpdate' id="gradeUpdate" />
+        <button name="btnupdate" id="btnupdate" >Update Student mark</button>
+    </form>
+    <br/>
+    <h1> Delete Student </h1>
+    <form method="DELETE" role="form" name="deleting" id="deleting" action ="" onsubmit="return delete_student_mark();" >
+        <label>Student Name:</label> <input type="text"  name='nameDelete' id="nameDelete"/>
+        <button name="btndelete" id="btndelete" >Delete Student</button>
+    </form>
+    <br/>
+    <h1>List all students:</h1>
+    <input type="button" name="btn_show" value="List All Students" onclick="get_students_list()"/>
+    <div id="liststudent"></div>
+
+</div>
+</body>
+</html>
