@@ -56,7 +56,7 @@ def add_student():
     grade = args.get("grade")
 
     database.append(Student(name, grade))
-    return 'Student is added', 200
+    return jsonify(studentName= name),200
 
 
 @app.route("/students", methods=['GET'])
@@ -72,7 +72,7 @@ def get_student(name):
         if st.name == name:
             return jsonify(st.__dict__)
 
-    return 'Student was not found', 404
+    return jsonify(name=False), 404
 
 
 @app.route("/students/<name>", methods=['DELETE'])
@@ -80,8 +80,8 @@ def delete_student(name):
     for st in database:
         if st.name == name:
             database.remove(st)
-            return 'Student is removed', 200, {'Content-Type': 'text/plain'}
-    return 'Student has been already removed', 200
+            return jsonify(studentName=name), 200
+    return jsonify(studentName=False), 200
 
 
 @app.route("/students/<name>", methods=['POST'])
@@ -95,9 +95,9 @@ def update_student(name):
         if st.name == name:
             database.remove(st)
             database.append(Student(name, grade))
-            return "Student's information was updated"
+            return jsonify(studentName=name, studentGrade=grade), 201
 
-    return 'There is no such a student', 404
+    return jsonify(studentName=False), 404
 
 
 @app.route("/statistics", methods=['GET'])
