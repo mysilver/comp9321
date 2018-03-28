@@ -24,7 +24,6 @@
         });
 
         function plot(memory_history) {
-
             memory_history.forEach(function(e) {
                 // Convert the timestamp to human readable date
                 e.date = new Date(e.date * 1000);
@@ -67,14 +66,14 @@
                .call(yAxis);
 
             // X/Y labels
-            svg.append("text")
+            svg.append("svg:text")
                .attr("transform", "rotate(-90)")
                .attr("y", 10)
                .attr("x", - (height / 2))
                .style("text-anchor", "middle")
                .text("Memory Usage");
 
-            svg.append("text")
+            svg.append("svg:text")
                .attr("x", width / 2)
                .attr("y", height)
                .style("text-anchor", "middle")
@@ -87,7 +86,7 @@
                             .y(function(d) {return yScale(d.memory_usage);
             });
 
-            var line = svg.append("g")
+            var line = svg.append("svg:g")
                 .append("path")
                 .attr("d", create_line(memory_history))
                 .attr("class", "line");
