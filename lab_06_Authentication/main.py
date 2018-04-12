@@ -1,10 +1,10 @@
+from lab_06_Authentication.auth import login_required
+from lab_06_Authentication.auth import SECRET_KEY
 from flask import Flask
 from flask import jsonify
 from flask_restful import reqparse
 from itsdangerous import (TimedJSONWebSignatureSerializer as Serializer)
 
-from lab_06_Authentication.auth import SECRET_KEY
-from lab_06_Authentication.auth import login_required
 
 app = Flask(__name__)
 database = []
@@ -49,8 +49,8 @@ def statistics():
     return stats
 
 
-@login_required
 @app.route("/students", methods=['POST'])
+@login_required
 def add_student():
     parser = reqparse.RequestParser()
     parser.add_argument('name', type=str)
@@ -64,16 +64,16 @@ def add_student():
     return jsonify(studentName=name), 200
 
 
-@login_required
 @app.route("/students", methods=['GET'])
+@login_required
 def get_students():
     response = jsonify([st.__dict__ for st in database])
     # response.headers._list.append(('Access-Control-Allow-Origin', '*'))
     return response
 
 
-@login_required
 @app.route("/students/<name>", methods=['GET'])
+@login_required
 def get_student(name):
     for st in database:
         if st.name == name:
@@ -82,8 +82,8 @@ def get_student(name):
     return jsonify(name=False), 404
 
 
-@login_required
 @app.route("/students/<name>", methods=['DELETE'])
+@login_required
 def delete_student(name):
     for st in database:
         if st.name == name:
@@ -92,8 +92,8 @@ def delete_student(name):
     return jsonify(studentName=False), 200
 
 
-@login_required
 @app.route("/students/<name>", methods=['POST'])
+@login_required
 def update_student(name):
     parser = reqparse.RequestParser()
     parser.add_argument('grade', type=int)
@@ -109,8 +109,8 @@ def update_student(name):
     return jsonify(studentName=False), 404
 
 
-@login_required
 @app.route("/statistics", methods=['GET'])
+@login_required
 def get_statistics():
     return jsonify(statistics().__dict__)
 
