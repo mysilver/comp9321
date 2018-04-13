@@ -115,7 +115,7 @@ def get_statistics():
     return jsonify(statistics().__dict__)
 
 
-@app.route("/token", methods=['GET'])
+@app.route("/auth", methods=['GET'])
 def generate_token():
         parser = reqparse.RequestParser()
         parser.add_argument('username', type=str)
